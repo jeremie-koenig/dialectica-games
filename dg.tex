@@ -1,0 +1,189 @@
+\documentclass{article}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cmll}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{question}{Question}
+
+\title{Game Interpretation of Dialectica constructions}
+
+\author{
+  Colin Bloomfield \and
+  J\'er\'emie Koenig \and
+  Valeria de Paiva \and
+  Jan Rooduijn}
+
+\begin{document}
+
+\maketitle
+
+\section{Coherence Games}
+
+Coherence spaces provide a general and uniform model of interaction.
+Like Dialectica categories they constitute a model of linear logic,
+and the constructions on coherence spaces
+can be understood in terms of the usual game interpretation of linear logic.
+Hence they are a convenient setting into which
+Dialectica games can be interpreted
+in order to formally understand their operational interpretation.
+
+However,
+standard coherence spaces do not provide a way to
+express winning conditions.
+To remedy this we relax the usual reflexivity condition
+for coherence relations.
+We will then understand a self-related token $a \coh a$
+as a winning play.
+By contrast, when $a \coh a$ does not hold,
+the token $a$ will represent a possible but losing play.
+
+\begin{definition}[Coherence Game]
+A coherence game $A = \langle |A|, {\coh_A} \rangle$
+is a set $|A|$ of \emph{tokens}
+together with a symmetric relation $\coh_A$.
+\end{definition}
+
+\begin{definition}[Morphism]
+A morphism $f : A \rightarrow B$
+between the coherence games $A$ and $B$
+is a relation $|f| \subseteq |A| \times |B|$
+such that
+when $a \mathrel{f} b$ and $a' \mathrel{f} b'$,
+we have $a \coh_A a' \Rightarrow b \coh_B b'$.
+The morphism $\mathrm{id}_A : A \rightarrow A$
+is the relation $=_{|A|}$.
+Morphisms compose as relations.
+\end{definition}
+
+\begin{definition}[Winning clique]
+A winning clique in a coherence game $A$
+is a subset $\sigma \subseteq |A|$
+such that
+$\forall a, a' \in \sigma \mathbin{.} a \coh_A a'$.
+\end{definition}
+
+\begin{definition}[Multiplicatives]
+For the coherence games $A, B$
+we define the coherence games
+$A \otimes B$, $A \rhd B$, $A \parr B$, $A \multimap B$
+on the set of tokens
+\[
+  |A \otimes B| =
+  |A \parr B| =
+  |A \multimap B| =
+  |A \rhd B| =
+  |A| \times |B|
+  \,.
+\]
+with the coherence relations given by:
+\begin{align*}
+  (a, a') \coh_{A \otimes B} (b, b') &\::\Leftrightarrow\:
+    a \coh_A a' \wedge b \coh_B b' \\
+  (a, a') \coh_{A \parr B} (b, b') &\::\Leftrightarrow\:
+    a \coh_A a' \vee b \coh_B b' \\
+  (a, a') \coh_{A \rhd B} (b, b') &\::\Leftrightarrow\:
+    a \coh_A a' \wedge (a = a' \Rightarrow b \coh_B b') \\
+  (a, a') \coh_{A \multimap B} (b, b') &\::\Leftrightarrow\:
+    a \coh_A a' \Rightarrow b \coh_B b'
+\end{align*}
+\end{definition}
+
+Note that the winning cliques of $A \multimap B$
+are the morphisms from $A$ to $B$.
+It is easy to verify that
+$A \otimes B \rightarrow C \cong A \rightarrow B \multimap C$.
+
+\begin{definition}
+The \emph{dual} $A^\bot$ of a coherence game $A$
+is defined by:
+\[
+  |A^\bot| := |A|
+  \qquad
+  a \coh_{A^\bot} a' :\Leftrightarrow
+	  \lnot (a \coh_A a')
+\]
+\end{definition}
+
+Note that $A \multimap B = A^\bot \parr B$.
+As usual, $\otimes$ and $\parr$ are dual with each other.
+However,
+while $\rhd$ is self-dual in coherence spaces,
+adding the winning condition breaks this property:
+the system must win both games to win $A \rhd B$,
+but the environment only has to win one of them
+in order to win the overall game.
+
+\section{Embedding $\Sigma \Pi \mathbf{2}$}
+
+We use the notations used in Nelson's write-up.
+Since $D\mathbf{Set} \subseteq \Sigma \Pi \mathbf{2}$,
+the functor we define also applies to it.
+
+Consider $(p, P) \in \Sigma \Pi \mathbf{2}$,
+that is $p \in \mathbf{Poly}$
+and $P \subseteq \sum_{i \in p(1)} p[i]$.
+The corresponding coherence game
+$E(p, P)$
+is defined as follows:
+\begin{align*}
+  |E (p, P)| \quad &:= \quad \sum_{i \in p(1)} p[i] \\
+  (i, a) \coh_{E (p, P)} (j, b) \quad &:\Leftrightarrow\quad
+    i = j \wedge (a = b \Rightarrow P(i, a))
+\end{align*}
+In addition,
+given a morphism
+\[ (f, F) : (p, P) \rightarrow (q, Q) \in \Sigma\Pi\mathbf{2}\,, \]
+so that $f : p(1) \rightarrow q(1)$
+and $F \in \prod_{i \in p(1)} p[i]^{q[f(i)]}$
+such that $P(i, F_i(b)) \Rightarrow Q(f(i), b)$,
+we define the corresponding morphism
+$E (f, F) : E (p, P) \rightarrow E (q, Q) \in \mathbf{CoG}$
+in the following way:
+\[
+  (i, a) \mathrel{[E (f, F)]} (j, b)
+    \::\Leftrightarrow\:
+    f(i) = j \wedge a = F_i(b)
+\]
+
+\begin{proposition}
+These constructions define a functor
+$E : \Sigma\Pi\mathbf{2} \rightarrow \mathbf{CoG}$.
+\end{proposition}
+
+\begin{proposition}
+The functor $E$ is faithful.
+\end{proposition}
+
+However,
+there are many more morphisms in $\mathbf{CoG}(E A, E B)$
+than in $\Sigma\Pi\mathbf{2}(A, B)$,
+since $\mathbf{CoG}$ contains partially defined morphisms
+such as $\bot$ in addition to those embedded from $\mathbf{Cog}$.
+It may possible to obtain a full functor
+from something such as $D \mathbf{C}$ construction
+performed on a category of partial functions.
+
+\begin{question}
+Does that work?
+\end{question}
+
+\begin{question}
+Conversely,
+can we restrict $\mathbf{CoG}$ to maximal morphisms
+to obtain the same result?
+Is $D\mathbf{C}$ or (more plausibly) $G\mathbf{C}$
+equivalent to a full subcategory of that?
+\end{question}
+
+\begin{question}
+How do the monoidal structure on
+$D\mathbf{C}$,
+$G\mathbf{C}$ and
+$\Sigma\Pi\mathbf{2}$
+carry through $E$?
+\end{question}
+
+\end{document}
