@@ -2,6 +2,7 @@
 \usepackage{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{tikz-cd}
 \usepackage{cmll}
 
 \newtheorem{definition}{Definition}
@@ -33,11 +34,11 @@ in order to formally understand their operational interpretation.
 However,
 standard coherence spaces do not provide a way to
 express winning conditions.
-To remedy this we relax the usual reflexivity condition
-for coherence relations.
+To remedy this, we relax the reflexivity condition
+of coherence relations.
 We will then understand a self-related token $a \coh a$
-as a winning play.
-By contrast, when $a \coh a$ does not hold,
+as a winning play;
+when $a \coh a$ does not hold,
 the token $a$ will represent a possible but losing play.
 
 \begin{definition}[Coherence Game]
@@ -51,8 +52,15 @@ A morphism $f : A \rightarrow B$
 between the coherence games $A$ and $B$
 is a relation $|f| \subseteq |A| \times |B|$
 such that
-when $a \mathrel{f} b$ and $a' \mathrel{f} b'$,
-we have $a \coh_A a' \Rightarrow b \coh_B b'$.
+when $a \mathrel{[f]} b$ and $a' \mathrel{[f]} b'$,
+we have $a \coh_A a' \Rightarrow b \coh_B b'$:
+\[
+  \begin{tikzcd}
+    a \ar[r, dash, "f"] \ar[d, dash, "\coh_A"'] &
+    b \ar[d, dash, dotted, "\coh_B"] \\
+    a' \ar[r, dash, "f"'] & b'
+  \end{tikzcd}
+\]
 The morphism $\mathrm{id}_A : A \rightarrow A$
 is the relation $=_{|A|}$.
 Morphisms compose as relations.
@@ -153,6 +161,10 @@ These constructions define a functor
 $E : \Sigma\Pi\mathbf{2} \rightarrow \mathbf{CoG}$.
 \end{proposition}
 
+Since
+$G\mathbf{Set} \subseteq D\mathbf{Set} \subseteq \Sigma\Pi\mathbf{2}$,
+the functor applies to these categories as well.
+
 \begin{proposition}
 The functor $E$ is faithful.
 \end{proposition}
@@ -161,7 +173,7 @@ However,
 there are many more morphisms in $\mathbf{CoG}(E A, E B)$
 than in $\Sigma\Pi\mathbf{2}(A, B)$,
 since $\mathbf{CoG}$ contains partially defined morphisms
-such as $\bot$ in addition to those embedded from $\mathbf{Cog}$.
+such as $\bot$ in addition to those embedded from $\mathbf{CoG}$.
 It may possible to obtain a full functor
 from something such as $D \mathbf{C}$ construction
 performed on a category of partial functions.
